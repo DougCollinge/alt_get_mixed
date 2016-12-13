@@ -1,0 +1,29 @@
+$ git clone https://github.com/DougCollinge/get_mixed
+Cloning into 'get_mixed'...
+remote: Counting objects: 104, done.
+remote: Compressing objects: 100% (70/70), done.
+remote: Total 104 (delta 11), reused 100 (delta 9), pack-reused 0
+Receiving objects: 100% (104/104), 11.75 MiB | 4.24 MiB/s, done.
+Resolving deltas: 100% (11/11), done.
+
+tills@DESKTOP-S1I70LJ MINGW64 /z/OneDrive/GitHub_Repos
+$ cd get_mixed
+
+tills@DESKTOP-S1I70LJ MINGW64 /z/OneDrive/GitHub_Repos/get_mixed (master)
+$ git branch
+* master
+
+tills@DESKTOP-S1I70LJ MINGW64 /z/OneDrive/GitHub_Repos/get_mixed (master)
+$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/Photran
+  remotes/origin/get_mixed_Samtry
+  remotes/origin/master
+
+tills@DESKTOP-S1I70LJ MINGW64 /z/OneDrive/GitHub_Repos/get_mixed (master)
+$ git checkout Photran
+Branch Photran set up to track remote branch Photran from origin.
+Switched to a new branch 'Photran'
+
+tills@DESKTOP-S1I70LJ MINGW64 /z/OneDrive/GitHub_Repos/get_mixed (Photran)
