@@ -2,16 +2,20 @@
       real t(2000),SAL(2000),sigm(2000),z(2000)
       real sms(100),smz(100)
       character*20 name
-
       name='97130187.t11'
 c reading text file
       open(UNIT=1,FILE=name)
       do i=1,1000
-
       read(1,*,err=1,end=1) z(i),t(i),sal(i),r,r,sigm(i)
       END DO
       close(1)
 1     n=i-1
+
+      IF(N.LT.1) THEN
+        print *,'No data found!'
+        print *,name
+        STOP
+      END IF
 
 
 c     parameters
