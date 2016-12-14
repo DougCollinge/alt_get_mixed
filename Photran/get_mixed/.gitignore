@@ -31,4 +31,6 @@
 *.out
 *.app
 
+# Stuff specific to project.
 /Debug/
+results.txt
