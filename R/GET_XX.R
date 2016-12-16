@@ -19,7 +19,8 @@ getxx <- function(x,y, x0) {
   j <- 1
   for (i in 1:length(x0) ) {
     ## !!!The original code has a bug in the guard j<length(x)!!!
-    while( (x0[i] > x[j]) && (j < length(x)) ) {
+    ## !!!Also > was corrected to >= !!!
+    while( (x0[i] >= x[j]) && (j < length(x)) ) {
        j <- j+1
     }
     if( j == 1 ) {
@@ -38,6 +39,9 @@ yy <- getxx(x,y, x0)
 
 cbind(x0,yy)
 
+# Now try approx...
+nyy = approx(x=x,y=y, xout=x0, method="linear", rule=2)
+nyy
 
 #c     Linear interpolation of the Input Data Series
 #c
