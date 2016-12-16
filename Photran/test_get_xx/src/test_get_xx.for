@@ -1,3 +1,5 @@
+c     subroutine GET_XX contains a programming error, just FYI
+
       program test_get_xx
           implicit none
 
@@ -43,15 +45,16 @@ c
 c     outputs:
 c         XX-  [REAL(N1)] output x-axis array (contains X0+dx(I-1))
 c         YY-  [REAL(N1)] output y-axis array
-
+      INTEGER J
       X1=X0
       J=1
       DO I=1,N1
 
         XX(I)=X1
-        DO WHILE (X1.GT.X(J).AND.J.LT.N1)
+c        !! The following DO should actually read J.LT.N !!!
+         DO WHILE (X1.GT.X(J).AND.J.LT.N1)
             J=J+1
-        END DO
+         END DO
         IF (J.EQ.1) THEN
             YY(I)=Y(1)
           ELSE
