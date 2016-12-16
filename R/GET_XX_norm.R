@@ -1,20 +1,47 @@
-####################################
-### For context it is helpful to ###
-### plot the profiles
-####################################
+#################
+### Fucntions ###
+#################
 
-## Load in libraries
+#Normalized Data
+normalized <- function(x) {
+  (x-min(x))/(max(x)-min(x))
+}
+
+########################
+## Load in libraries ###
+########################
 library(tidyverse)
 
-## Name the data file we want in
-filename <- "97130187.t11" 
+## Two options for data structure
+## Use same data as test_get_xx_norm.for
+x <- c(1,2,3,3.5)
+y <- c(10.0,20.0,10.0,5.0)
 
-## Load in the data 
-df <- read.table(filename, 
-                 col.names = c("depth","temper","salinity","unk-var1","unk-var2","density"))
-
-
-approx(y=df$depth, x=df$temper, method= "linear")
+## data structure 
+df <- data.frame(x=c(1,2,3,3.5), y=c(10.0,20.0,10.0,5.0))
 
 
+approx(y=normalized(y), x=normalized(x),  method= "linear", n=6, rule=1)
 
+
+
+
+#    inputs:
+#         N - [INTEGER] number of points in the input array
+#         N1- [INTEGER] number of points in the output array
+#         X0- [REAL] X-axis start point
+#         DX- [REAL] X-axis data step
+#         X-  [REAL(N)] input x array (should be in "chronological" order)
+#         Y-  [REAL(N)] input y array (the start value is assumed to be different from the end value)
+
+#     outputs:
+#      ANORMX - [REAL] x normalization coefficient for conversion back to real data
+#      ANORMY - [REAL] y normalization coefficient for conversion back to real data
+#         XX-  [REAL(N1)] output x array (contains values from 0 to 1)
+#         YY-  [REAL(N1)] output y array (contains values from 0 to 1 for monotonic input)
+
+x[1]
+
+for (J in X+1)
+{
+  
