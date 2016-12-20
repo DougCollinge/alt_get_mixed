@@ -27,6 +27,20 @@ y <- c(10.0,20.0,10.0,5.0)
 
 #approx(x, y,  xout=c(0,1,2,3,4,5), method= "linear", rule=2)
 
+# Interpolate and normalize a vector of samples. 
+# X and Y will be linearly interpolated to match the length of X0
+# and will be normalized so that the first point is (0,0) and the 
+# last point is (1,1).
+# Input:
+#   Vector x are the input x values, must be in ascending order.
+#   Vector y are the input y values.
+#   Vector x0 are the values of x at which the new interpolated samples
+#   should be evaluated.
+# Output is a data.frame with:
+#   anormx, the normalization value used to make the last x == 1.
+#   anormy, the normalization value used to make the last y == 1.
+#   xx,yy  vectors of x,y values interpolated to be the same length as x0.
+#
 getxxnorm <- function(x,y, x0) {
   yy <- rep(0,length(x0))
   j <- 1
@@ -41,13 +55,6 @@ getxxnorm <- function(x,y, x0) {
       yy[i] <- y[j-1]+(x0[i]-x[j-1])/(x[j]-x[j-1])*(y[j]-y[j-1])
     }
   }
-#        y0=yy(1)
-#        anormx=xx(n1)-x0
-#        anormy=yy(n1)-y0
-#      DO I=1,N1
-#        XX(I)=(XX(i)-x0)/anormx
-#        YY(I)=(yy(i)-y0)/anormy
-#      END DO
   xx = x0    # Don't change input data, please!
   anormx = xx[length(xx)] - xx[1]
   anormy = yy[length(yy)] - yy[1]
