@@ -27,6 +27,7 @@ y <- c(10.0,20.0,10.0,5.0)
 
 #approx(x, y,  xout=c(0,1,2,3,4,5), method= "linear", rule=2)
 
+#getxxnorm(x,y, x0)
 # Interpolate and normalize a vector of samples. 
 # X and Y will be linearly interpolated to match the length of X0
 # and will be normalized so that the first point is (0,0) and the 
@@ -42,26 +43,25 @@ y <- c(10.0,20.0,10.0,5.0)
 #   xx,yy  vectors of x,y values interpolated to be the same length as x0.
 #
 getxxnorm <- function(x,y, x0) {
-  yy <- rep(0,length(x0))
+  y0 <- rep(0,length(x0))  # Reserve space for y values.
   j <- 1
   for (i in 1:length(x0) ) {
     while( (x0[i] >= x[j]) && (j < length(x)) ) {
        j <- j+1
     }
     if( j == 1 ) {
-      yy[i] <- y[1]
+      y0[i] <- y[1]
     } 
     else {
-      yy[i] <- y[j-1]+(x0[i]-x[j-1])/(x[j]-x[j-1])*(y[j]-y[j-1])
+      y0[i] <- y[j-1]+(x0[i]-x[j-1])/(x[j]-x[j-1])*(y[j]-y[j-1])
     }
   }
-  xx = x0    # Don't change input data, please!
-  anormx = xx[length(xx)] - xx[1]
-  anormy = yy[length(yy)] - yy[1]
-  xx = (xx - xx[1])/anormx
-  yy = (yy - yy[1])/anormy
+  anormx = x0[length(x0)] - x0[1]
+  anormy = y0[length(y0)] - y0[1]
+  x0 = (x0 - x0[1])/anormx
+  y0 = (y0 - y0[1])/anormy
   
-  data.frame(anormx,anormy,xx,yy)
+  data.frame(anormx,anormy,x0,y0)
 }
 
 x0 <- c(0,1,2,3,4,5)
