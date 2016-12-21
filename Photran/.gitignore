@@ -1,0 +1,9 @@
+# Bunch of Photran == eclipse stuff.
+.markers.snap
+.project
+.cproject
+.lock
+.log
+.syncinfo
+.metadata
+
