@@ -1,12 +1,24 @@
-## The goal here is the split ni into two elements of a list 
+#####################
+### Documentation ###
+#####################
 
-## Using the same data as merge.R
-ni = 42 + 0:(20-1)
-i = 5
+#SUBROUTINE spl(i,Nr,Ni)
+#INTEGER NR,NI(nr+2)
+#
+#C     {spliting interval i into 2 pieces
+#  c     inputs:
+#  c       I- [INTEGER] interval number, should be less than NR+1
+#  c       NR- [INTEGER] current maximum of interval number
+#  c       NI- [INTEGER(NR)] current array with interval start point number
+#  c
+#  c     outputs:
+#  c       NR- [INTEGER] new maximum of interval number
+#  c       NI- [INTEGER(NR)] new array with interval start point number
 
-## Reflecting my naivety with FORTRAN, I'm not sure where nr comes in here.
-nr = 10
 
+#################
+### Functions ###
+#################
 
 spl <- function(ni, i) {
   k1=ni[i]
@@ -24,4 +36,39 @@ spl <- function(ni, i) {
   split(ni, ifelse(ni>jsplit,"Group1","Group2"))
 }
 
+###############
+### Testing ###
+###############
+
+## Using the same data as merge.R
+ni = 42 + 0:(20-1)
+i = 5
+
+## Reflecting my naivety with FORTRAN, I'm not sure where nr comes in here.
+nr = 10
+
 spl(ni, i)
+
+
+##################################
+### Corresponding FORTRAN CODE ###
+##################################
+
+#INTEGER j,jsplit
+#INTEGER k1,k2
+#
+#
+#k1=Ni(i)
+#k2=Ni(i+1)
+#jsplit=(k1+k2)/2
+#if (jsplit.ge.k2-1) jsplit=k2-2
+#if (jsplit.le.k1+1) jsplit=k1+2
+#C {splitting}
+#
+#Nr=Nr+1
+#DO j=Nr+1,i+2,-1
+#Ni(j)=Ni(j-1)
+#END DO
+#Ni(i+1)=jsplit
+#RETURN
+#END
