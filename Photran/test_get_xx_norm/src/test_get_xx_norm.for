@@ -3,27 +3,29 @@
 c     Inputs:
       integer N, N1, I
       real X0, DX
-      real X(4),Y(4)
+      INTEGER DATASIZE
+      real X(500),Y(500)
 
 c     Outputs:
       real anormx, anormy
-      real XX(10),YY(10)
+      real XX(500),YY(500)
 
 
       CHARACTER (len=32):: FNAME
       INTEGER IXY
+      DATASIZE = 500
 
       CALL get_command_argument(1, FNAME)
-!      print *,FNAME
 
       OPEN(1,FILE=FNAME)
       IXY=1
-      DO WHILE(.TRUE.)
+      DO WHILE(IXY<=DATASIZE)
         READ(1,*,ERR=100,END=100) X(IXY),Y(IXY)
         IXY = IXY+1
       END DO
 100   CONTINUE
       IXY = IXY-1
+
 !      DO I=1,IXY
 !        PRINT*,I,X(I),Y(I)
 !      END DO
@@ -35,10 +37,8 @@ c     Outputs:
 
       call GET_XX_norm(anormx,anormy, N,N1,X0,DX,X,Y,XX,YY)
 
-      print *, anormx,anormy
-      print *, " "
       DO I=1,N1
-        print *, XX(I),YY(I)
+        print *, anormx,anormy,XX(I),YY(I)
       END DO
 
       stop
