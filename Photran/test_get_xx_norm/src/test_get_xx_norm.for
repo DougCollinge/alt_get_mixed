@@ -9,11 +9,28 @@ c     Outputs:
       real anormx, anormy
       real XX(10),YY(10)
 
-      DATA X /1.0, 2.0, 3.0, 3.5/
-      DATA Y /10.0,20.0,10.0,5.0/
+
+      CHARACTER (len=32):: FNAME
+      INTEGER IXY
+
+      CALL get_command_argument(1, FNAME)
+!      print *,FNAME
+
+      OPEN(1,FILE=FNAME)
+      IXY=1
+      DO WHILE(.TRUE.)
+        READ(1,*,ERR=100,END=100) X(IXY),Y(IXY)
+        IXY = IXY+1
+      END DO
+100   CONTINUE
+      IXY = IXY-1
+!      DO I=1,IXY
+!        PRINT*,I,X(I),Y(I)
+!      END DO
+
+      N = IXY
       X0 = 0.
       DX = 1.0
-      N = 4
       N1 = 6
 
       call GET_XX_norm(anormx,anormy, N,N1,X0,DX,X,Y,XX,YY)
