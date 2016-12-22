@@ -20,7 +20,11 @@
 ### Functions ###
 #################
 
-spl <- function(ni, i) {
+spl <- function(ni, nr, i) {
+  ## Interval number should be less than NR+1
+  if( i >=nr+1 ) {
+    "i needs to be less that nr+1"}
+  else{
   k1=ni[i]
   k2=ni[i+1]
   
@@ -34,7 +38,9 @@ spl <- function(ni, i) {
   
   ## Built in R function
   split(ni, ifelse(ni>jsplit,"Group1","Group2"))
+  }
 }
+
 
 ###############
 ### Testing ###
@@ -43,11 +49,13 @@ spl <- function(ni, i) {
 ## Using the same data as merge.R
 ni = 42 + 0:(20-1)
 i = 5
-
-## Reflecting my naivety with FORTRAN, I'm not sure where nr comes in here.
 nr = 10
 
-spl(ni, i)
+spl(ni, i, nr)
+
+spl(ni, i=5, nr=10)
+
+
 
 
 ##################################
