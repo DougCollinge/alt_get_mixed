@@ -35,7 +35,9 @@ spl = function(i,nr,ni) {
                             "Condition Not Satisfied")
     )
   
-    
+   ## I think the following achieves the same result:
+   # jsplit <- max(min(jsplit,k2-2),k1+2) 
+
   nn = ni
   nn[i:nr] = ni[(nr+1):(i+1)]
   nn[i+1] =jsplit
