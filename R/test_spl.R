@@ -20,26 +20,28 @@
 ### Functions ###
 #################
 
-spl <- function(ni, nr, i) {
-  ## Interval number should be less than NR+1
+spl = function(i,nr,ni) {
   if( i >=nr+1 ) {
     "i needs to be less that nr+1"}
   else{
-  k1=ni[i]
-  k2=ni[i+1]
-  
-  jsplit_cond=(k1+k2)/2
-  
+    k1=ni[i]
+    k2=ni[i+1]
+    
+    jsplit_cond=(k1+k2)/2
+    
     ## Using double condition in an attempt to be defensive
-  jsplit <- ifelse(jsplit_cond >= k2-1, k2-2,
-                   ifelse(jsplit_cond <= k1+1, k1+1, 
-                          "Condition Not Satisfied")
-                   )
+    jsplit <- ifelse(jsplit_cond >= k2-1, k2-2,
+                     ifelse(jsplit_cond <= k1+1, k1+2, 
+                            "Condition Not Satisfied")
+    )
   
-  ## Built in R function
-  split(ni, ifelse(ni>jsplit,"Group1","Group2"))
+    
+  nn = ni
+  nn[i:nr] = ni[(nr+1):(i+1)]
+  nn[i+1] =jsplit
+  nn
   }
-}
+} 
 
 
 ###############
@@ -53,7 +55,7 @@ nr = 10
 
 spl(ni, i, nr)
 
-spl(ni, i=5, nr=10)
+spl(ni, i=10, nr=5)
 
 
 
