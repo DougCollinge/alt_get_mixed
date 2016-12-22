@@ -54,7 +54,7 @@ getxxnorm <- function(x,y, x0) {
 #x <- c(1,2,3,3.5)
 #y <- c(10.0,20.0,10.0,5.0)
 
-df <- read.csv("../data/testdata1.txt", col.names = c("x","y"))
+df <- read.csv("../data/testdata1.txt", header=FALSE, col.names = c("x","y"))
 
 
 x0 <- c(0,1,2,3,4,5)
