@@ -1,18 +1,24 @@
+#####################
+### Documentation ###
+#####################
+#c     Linear interpolation of the Input Data Series
+#c
+#c     Input:
+#c         N - [INTEGER] number of points in the input array
+#c         N1- [INTEGER] number of points in the output array
+#c         X0- [REAL] start point along the x-axis
+#c         DX- [REAL] data step along the x-axis
+#c         X-  [REAL(N)] input x-axis array (should be in "chronological" order)
+#c         Y-  [REAL(N)] input y-axis array
+#c
+#c     outputs:
+#c         XX-  [REAL(N1)] output x-axis array (contains X0+dx(I-1))
+#c         YY-  [REAL(N1)] output y-axis array
+
 #################
 ### Functions ###
 #################
 
-########################
-## Load in libraries ###
-########################
-library(tidyverse)
-
-## Two options for data structure
-## Use same data as test_get_xx_norm.for
-x <- c(1,2,3,3.5)
-y <- c(10.0,20.0,10.0,5.0)
-
-#approx(x, y,  xout=c(0,1,2,3,4,5), method= "linear", rule=2)
 
 getxx <- function(x,y, x0) {
   yy <- rep(0,length(x0))
@@ -33,29 +39,31 @@ getxx <- function(x,y, x0) {
   yy
 }
 
+
+###############
+### Testing ###
+###############
+
+## Two options for data structure
+## Use same data as test_get_xx_norm.for
+#x <- c(1,2,3,3.5)
+#y <- c(10.0,20.0,10.0,5.0)
+
+
+df <- read.csv("../data/testdata1.txt", header=FALSE, col.names = c("x","y"))
+
+
 x0 <- c(0,1,2,3,4,5)
 
-yy <- getxx(x,y, x0)
 
-cbind(x0,yy)
+getxx(df$x,df$y, x0)
 
-# Now try approx...
-nyy = approx(x=x,y=y, xout=x0, method="linear", rule=2)
-nyy
+#cbind(x0,yy)
 
-#c     Linear interpolation of the Input Data Series
-#c
-#c     Input:
-#c         N - [INTEGER] number of points in the input array
-#c         N1- [INTEGER] number of points in the output array
-#c         X0- [REAL] start point along the x-axis
-#c         DX- [REAL] data step along the x-axis
-#c         X-  [REAL(N)] input x-axis array (should be in "chronological" order)
-#c         Y-  [REAL(N)] input y-axis array
-#c
-#c     outputs:
-#c         XX-  [REAL(N1)] output x-axis array (contains X0+dx(I-1))
-#c         YY-  [REAL(N1)] output y-axis array
+##################################
+### Corresponding FORTRAN CODE ###
+##################################
+
 #
 #      X1=X0
 #      J=1

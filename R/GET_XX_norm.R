@@ -1,31 +1,6 @@
-#################
-### Functions ###
-#################
-
-#Normalized Data
-normalized <- function(x) {
-  (x-min(x))/(max(x)-min(x))
-}
-
-########################
-## Load in libraries ###
-########################
-library(tidyverse)
-
-## Two options for data structure
-## Use same data as test_get_xx_norm.for
-x <- c(1,2,3,3.5)
-y <- c(10.0,20.0,10.0,5.0)
-
-## data structure 
-#df <- data.frame(x=c(1,2,3,3.5), y=c(10.0,20.0,10.0,5.0))
-
-
-#approx(y=normalized(y), x=normalized(x),  method= "linear", n=6, rule=1)
-
-
-
-#approx(x, y,  xout=c(0,1,2,3,4,5), method= "linear", rule=2)
+#####################
+### Documentation ###
+#####################
 
 #getxxnorm(x,y, x0)
 # Interpolate and normalize a vector of samples. 
@@ -42,12 +17,19 @@ y <- c(10.0,20.0,10.0,5.0)
 #   anormy, the normalization value used to make the last y == 1.
 #   xx,yy  vectors of x,y values interpolated to be the same length as x0.
 #
+
+
+#################
+### Functions ###
+#################
+
+
 getxxnorm <- function(x,y, x0) {
   y0 <- rep(0,length(x0))  # Reserve space for y values.
   j <- 1
   for (i in 1:length(x0) ) {
     while( (x0[i] >= x[j]) && (j < length(x)) ) {
-       j <- j+1
+      j <- j+1
     }
     if( j == 1 ) {
       y0[i] <- y[1]
@@ -64,11 +46,25 @@ getxxnorm <- function(x,y, x0) {
   data.frame(anormx,anormy,x0,y0)
 }
 
+###############
+### Testing ###
+###############
+
+## Use same data as test_get_xx_norm.for
+#x <- c(1,2,3,3.5)
+#y <- c(10.0,20.0,10.0,5.0)
+
+df <- read.csv("../data/testdata1.txt", header=FALSE, col.names = c("x","y"))
+
+
 x0 <- c(0,1,2,3,4,5)
-getxxnorm(x,y, x0)
 
-#try the same thing with approx...
+getxxnorm(df$x,df$y, x0)
 
+
+##################################
+### Corresponding FORTRAN CODE ###
+##################################
 
 #        SUBROUTINE GET_XX_norm(anormx,anormy,N,N1,X0,DX,X,Y,XX,YY)
 #        REAL X(N),Y(N),XX(N1),YY(N1)
