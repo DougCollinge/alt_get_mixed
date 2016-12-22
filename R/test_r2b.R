@@ -19,21 +19,44 @@
 #################
 ### Functions ###
 #################
-if(k2-k1<=2) {
-  r2b=0
-} else {
-  sx=0
-  sxx=0
-  sy=0
-  sxy=0
-  eps=0
-  for (i in k1:k2-1){
-    sxx=sxx+df$x[i]^2
-    sxy=sxy+df$x[i]*df$y[i]
-    sy=sy+y[i]
-    sx=sx+x[i]
+r2b = function(k1,k2,x,y) {
+  # k1,k2: indexes of a segment of data in x,y
+  # x,y: data arrays
+  # return data.frame (r2b,a,b)
+
+  if(k2-k1<=2) {
+    r2b=0
+    a = 0  # original code does not produce a or b?
+    b = 0
+  } else {
+  #  sx=0
+  #  sxx=0
+  #  sy=0
+  #  sxy=0
+    eps=0
+    i = k1:(k2-1)
+    ssx = sum(df$x[i]^2)
+    sxy = sum(df$x[i]*df$y[i])
+    sy = sum(y[i])
+    sx = sum(x[i])
+  #  for (i in k1:k2-1){
+  #    sxx=sxx+df$x[i]^2
+  #    sxy=sxy+df$x[i]*df$y[i]
+  #    sy=sy+y[i]
+  #    sx=sx+x[i]
+  #  }
+  
+    n = k2-k1
+    a = 0.0
+    if(k1 > 1) {
+      a = (n*sxy-sy*sx)/(n*sxx-sx*sx)
+    }
+    b = (sy-a*sx)/n
+    r2b = max( abs( y[i] - a*x[i] - b )/sqrt(a^2 + 1) )
   }
+  data.frame(r2b=r2b,a=a,b=b)
 }
+
 ## Confused what happens from line 321 to 337 in exam_new.for
 
 
