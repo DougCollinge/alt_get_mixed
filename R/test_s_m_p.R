@@ -25,11 +25,11 @@
 #################
 ### Functions ###
 #################
-## Right now I am defining the functions by running each individual .R file so that the function is defined.
-## Until they are stable it is best to keep them separate
-## Not quite a function yet
-## Lines 360-367
-
+## May need to install devtools
+## install.packages(devtools)
+library(devtools)
+## this allows us to call all the functions we've created. 
+install_github("boshek/limnotools")
 
 
 ###############
