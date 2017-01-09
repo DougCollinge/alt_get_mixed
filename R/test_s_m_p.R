@@ -22,24 +22,26 @@
 #LOGICAL change
 
 
-#################
-### Functions ###
-#################
+########################
+### Using limnotools ###
+########################
 ## May need to install devtools
 ## install.packages(devtools)
 library(devtools)
 ## this allows us to call all the functions we've created. 
 install_github("boshek/limnotools")
 
+library(limnotools)
 
+## Now all the functions we've created can view and accessed like any other r function
+?r2b
+?spl
 ###############
 ### Testing ###
 ###############
 
 ## Data
-df <- read.csv("../data/testdata1.txt", header=FALSE, col.names = c("x","y"))
-##Slightly bigger dataset
-#df <- read.csv("../data/testdata2.txt", header=FALSE, col.names = c("x","y"))
+df <- t11
 
 ## Use same data as test_get_xx_norm.for
 N <- length(df$x)
