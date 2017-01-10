@@ -37,22 +37,28 @@ library(limnotools)
 ?r2b
 ?spl
 
+r2b
+
 ## Equally you can get the datasets in the limnotools package (the ones we've been using)
 small_df
 large_df
 t11
+
 ###############
 ### Testing ###
 ###############
 
+
 ## Data
+## Using initial data provided
 df <- t11
 
-## Use same data as test_get_xx_norm.for
-N <- length(df$x)
+N <- length(df$depth)
 nr=2
-eps=1
+## Specified error threshold
+eps=0.015
 
+## Generated a array with start points (ni)
 ni_l <- c()
 m=round(N/nr)
 for (i in 2:nr){
@@ -67,12 +73,33 @@ m=0
 ## lab1
 i=1
 
+
+## Simply running it manually for testing purposes
+## Remember you need to load limnotools before trying this
+
+## First iteration; enorma$r2b>eps is TRUE
+spl(ni=c(1, 201, 402), i=1, nr=2)
+## Resulting ni= 402 101 402
+
+## Second iteration; enorma$r2b>eps is TRUE
+spl(ni=c(402, 101, 402), i=1, nr=3)
+## Resulting ni NA 404 101
+
+## Third iteration
+## k1=ni[1] which is NA
+## This results in: 
+#> r2b(k1=k1,k2=k2,x=df$temper, y=df$depth)
+#Error in if (k2 - k1 <= 2) { : missing value where TRUE/FALSE needed
+
+
 #while( i <= nr ) {
   k1=ni[i]
   k2=ni[i+1]
-  enorma=r2b(k1=k1,k2=k2,x=df$x, y=df$y)
+  enorma=r2b(k1=k1,k2=k2,x=df$temper, y=df$depth)
   if( enorma$r2b>eps ) {
-    spl(ni=ni, i=i, nr=nr)
+    ##spl should redefine ni and nr?
+    ni = spl(ni=ni, i=i, nr=nr)
+    nr = length(ni)
   }   else {
     i=i+1
   }
@@ -85,10 +112,11 @@ i=1
 for(i in 2:(nr-1)){
   k1=ni[i-1]
   k2=ni[i+1]
-  eps1=r2b(k1=k1,k2=k2,x=df$x, y=df$y)
+  eps1=r2b(k1=k1,k2=k2,x=df$temper, y=df$depth)
   if (eps1$r2b<eps) {
     if (nr>2) {
-      zerge(i=i, nr=nr, ni=ni)
+      ni <- mixmerge(i=i, nr=nr, ni=ni)
+      nr <- length(ni)
     } else {
       ni[1]=1
       nr=2
