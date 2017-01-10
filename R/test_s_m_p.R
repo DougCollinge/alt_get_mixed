@@ -36,6 +36,11 @@ library(limnotools)
 ## Now all the functions we've created can view and accessed like any other r function
 ?r2b
 ?spl
+
+## Equally you can get the datasets in the limnotools package (the ones we've been using)
+small_df
+large_df
+t11
 ###############
 ### Testing ###
 ###############
