@@ -33,7 +33,7 @@ r2b = function(k1,k2,x,y) {
   #  sxx=0
   #  sy=0
   #  sxy=0
-    eps=0
+  #  eps=0
     i = k1:(k2-1)
     ssx = sum(df$x[i]^2)
     sxy = sum(df$x[i]*df$y[i])
@@ -67,6 +67,9 @@ df <- read.csv("../data/testdata1.txt", header=FALSE, col.names = c("x","y"))
 ## Using the same data as merge.R
 ni = 42 + 0:(20-1)
 i = 5
+
+enorma=r2b(k1=k1,k2=k2,x=df$x, y=df$y)
+
 
 ## Reflecting my naivety with FORTRAN, I'm not sure where nr comes in here.
 nr = 10
