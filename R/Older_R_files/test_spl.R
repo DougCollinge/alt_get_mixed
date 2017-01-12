@@ -48,7 +48,7 @@
 spl <- function(ni,i) {
   k1 = ni[i]
   k2 = ni[i+1]
-  jsplit = max(min(floor((k1+k2)/2),k2-2),k1+2)
+  jsplit = max(min(floor((k1+k2)/2),k2),k1)
   c(ni[1:i],jsplit,ni[(i+1):length(ni)])
 }
 
