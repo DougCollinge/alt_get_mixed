@@ -21,27 +21,47 @@
 !      END DO
 
       INTEGER NR
-      INTEGER NI(12)
+      INTEGER NI(16)
       DATA NR /4/
-      DATA NI /1,5,10,15,20,0,0,0,0,0,0,0/
-      CALL printni(NR,NI)
-      CALL spl(2,NR,NI)
-      CALL printni(NR,NI)
-      CALL spl(5,NR,NI)
-      CALL printni(NR,NI)
-      CALL spl(2,NR,NI)
-      CALL printni(NR,NI)
+      DATA NI /1,5,10,15,20,0,0,0,0,0,0,0,0,0,0,0/
+      INTEGER I
+      CALL printni(0,0,NR,NI)
+      I=2
+      CALL spl(I,NR,NI)
+      CALL printni(1,I,NR,NI)
+      I=5
+      CALL spl(I,NR,NI)
+      CALL printni(2,I,NR,NI)
+      I=2
+      CALL spl(I,NR,NI)
+      CALL printni(3,I,NR,NI)
+      I=1
+      CALL spl(I,NR,NI)
+      CALL printni(4,I,NR,NI)
+      I=NR
+      CALL spl(I,NR,NI)
+      CALL printni(5,I,NR,NI)
+      I=NR
+      CALL spl(I,NR,NI)
+      CALL printni(6,I,NR,NI)
+      I=NR
+      CALL spl(I,NR,NI)
+      CALL printni(7,I,NR,NI)
+
 
       END PROGRAM test_spl
 
-      SUBROUTINE printni(Nr,Ni)
+      SUBROUTINE printni(IT,I,Nr,Ni)
       INTEGER Nr, Ni(Nr+2)
-      INTEGER I
-      PRINT*,"All segments:"
-      DO I=1,NR
-        PRINT*, I, Ni(I),ni(I+1)
-      END DO
+      INTEGER I,IT,J
+!      PRINT*,"All segments:"
+!      DO I=1,NR
+!        PRINT*, I, Ni(I),ni(I+1)
+!      END DO
+      PRINT*,"Test:",IT," I:",I
+      PRINT*,(NI(J),J=1,NR+1)
       PRINT*,""
+
       END
 
       SUBROUTINE spl(i,Nr,Ni)

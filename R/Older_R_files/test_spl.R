@@ -74,6 +74,14 @@ ni = spl(ni,i=5)
 ni
 ni = spl(ni,i=2)
 ni
+ni = spl(ni,i=1)
+ni
+ni = spl(ni,i=length(ni)-1)
+ni
+ni = spl(ni,i=length(ni)-1)
+ni
+ni = spl(ni,i=length(ni)-1)
+ni
 
 ##################################
 ### Corresponding FORTRAN CODE ###
