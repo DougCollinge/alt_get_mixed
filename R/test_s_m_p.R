@@ -48,7 +48,6 @@ t11
 ### Testing ###
 ###############
 
-
 ## Data
 ## Using initial data provided
 df <- t11
@@ -56,7 +55,7 @@ df <- t11
 N <- length(df$depth)
 nr=2
 ## Specified error threshold
-eps=0.015
+eps=1
 
 ## Generated a array with start points (ni)
 ni_l <- c()
@@ -65,45 +64,37 @@ for (i in 2:nr){
   u <- m*(i-1)+1
   ni <- c(ni_l, u)
 }
+
 ni <- c(1,ni, N+1)
 
 m=0
+i=1
+
+## Number of iteration for while loops
+x=0
 
 ## {step 1: if exceeds norma}
 ## lab1
-i=1
 
-
-## Simply running it manually for testing purposes
-## Remember you need to load limnotools before trying this
-
-## First iteration; enorma$r2b>eps is TRUE
-spl(ni=c(1, 201, 402), i=1, nr=2)
-## Resulting ni= 402 101 402
-
-## Second iteration; enorma$r2b>eps is TRUE
-spl(ni=c(402, 101, 402), i=1, nr=3)
-## Resulting ni NA 404 101
-
-## Third iteration
-## k1=ni[1] which is NA
-## This results in: 
-#> r2b(k1=k1,k2=k2,x=df$temper, y=df$depth)
-#Error in if (k2 - k1 <= 2) { : missing value where TRUE/FALSE needed
-
-
-#while( i <= nr ) {
-  k1=ni[i]
-  k2=ni[i+1]
-  enorma=r2b(k1=k1,k2=k2,x=df$temper, y=df$depth)
-  if( enorma$r2b>eps ) {
-    ##spl should redefine ni and nr?
-    ni = spl(ni=ni, i=i, nr=nr)
+while(i < nr) {
+  k1 = ni[i]
+  k2 = ni[i + 1]
+  enorma = r2b(
+    k1 = k1,
+    k2 = k2,
+    x = df$temper,
+    y = df$depth
+  )
+  if (enorma$r2b > eps) {
+    ni = spl(ni = ni, i = i)
     nr = length(ni)
+    ## Tracking which loop
+    x = x + 1
+    print(paste0("loop ", x))
   }   else {
-    i=i+1
+    i = i + 1
   }
-#  }
+}
 
 #{step 2: try to merge}
 ## I'm stuck with this looping interval. 
