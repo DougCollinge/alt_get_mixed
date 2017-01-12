@@ -61,7 +61,6 @@
       PRINT*,"Test:",IT," I:",I
       PRINT*,(NI(J),J=1,NR+1)
       PRINT*,""
-
       END
 
       SUBROUTINE spl(i,Nr,Ni)
