@@ -45,25 +45,38 @@
 #}
 #}
 
-spl <- function(ni,i) {
-  k1 = ni[i]
-  k2 = ni[i+1]
-  jsplit = max(min(floor((k1+k2)/2),k2),k1)
-  c(ni[1:i],jsplit,ni[(i+1):length(ni)])
+spl <- function(ni, i) {
+  if ( length(ni) > 2 ) {
+    if ( i <= length(ni) - 1 ) {
+      k1 = ni[i]
+      k2 = ni[i + 1]
+      jsplit = max(min(floor((k1 + k2) / 2), k2), k1)
+      c(ni[1:i], jsplit, ni[(i + 1):length(ni)])
+    } else {
+      "i must be less length(ni)-1"
+    }
+  }
+  else {
+    "ni interval needs to be greater than 2"
+  }
 }
 
 ###############
 ### Testing ###
 ###############
 
-### Using the same data as merge.R
-#ni = 42 + 0:(20-1)
-#i = 5
-#nr = 10
-#
-#spl(ni, i, nr)
-#
-#spl(ni, i=10, nr=5)
+## Interval too small 
+ni =  c(10, 20) 
+i = 2
+
+spl(ni, i)  
+
+## i too small
+ni =  c(10, 20, 30) 
+i = 3
+
+spl(ni, i) 
+  
 
 ni = c(1,5,10,15,20)
 nr = 4
