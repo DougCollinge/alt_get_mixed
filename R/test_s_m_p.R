@@ -87,7 +87,8 @@ while(i < nr) {
   )
   if (enorma$r2b > eps) {
     ni = spl(ni = ni, i = i)
-    nr = length(ni)
+    ## Is this correct?
+    nr = length(ni)-1
     ## Tracking which loop
     x = x + 1
     print(paste0("loop ", x))
@@ -96,24 +97,34 @@ while(i < nr) {
   }
 }
 
+
 #{step 2: try to merge}
-## I'm stuck with this looping interval. 
-## At nr=2 this results in an 2 then 1 to loop over
-## Throws an error with r2b()
+x <- 0
+## I think that i needs to be less than nr
+
 for(i in 2:(nr-1)){
   k1=ni[i-1]
   k2=ni[i+1]
   eps1=r2b(k1=k1,k2=k2,x=df$temper, y=df$depth)
   if (eps1$r2b<eps) {
     if (nr>2) {
-      ni <- mixmerge(i=i, nr=nr, ni=ni)
-      nr <- length(ni)
+      ni <- zerge(i=i, nr=nr, ni=ni)
+      nr <- length(ni)-1
     } else {
       ni[1]=1
       nr=2
     }
   }
-}
+  ## Tracking which loop
+  x = x + 1
+  print(paste0("loop ", x))
+  print(paste0("nr=",nr))
+  print(paste0("i=",i))
+  print("ni=");print(ni)
+  }
+
+##Fails
+
 ##Stopped at line 410
   
 ##################################
