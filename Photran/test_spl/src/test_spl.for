@@ -20,38 +20,174 @@
 !        PRINT*,I,X(I),Y(I)
 !      END DO
 
-      INTEGER NR
-      INTEGER NI(16)
-      DATA NR /4/
-      DATA NI /1,5,10,15,20,0,0,0,0,0,0,0,0,0,0,0/
-      INTEGER I
-      CALL printni(0,0,NR,NI)
-      I=2
-      CALL spl(I,NR,NI)
-      CALL printni(1,I,NR,NI)
-      I=5
-      CALL spl(I,NR,NI)
-      CALL printni(2,I,NR,NI)
-      I=2
-      CALL spl(I,NR,NI)
-      CALL printni(3,I,NR,NI)
-      I=1
-      CALL spl(I,NR,NI)
-      CALL printni(4,I,NR,NI)
-      I=NR
-      CALL spl(I,NR,NI)
-      CALL printni(5,I,NR,NI)
-      I=NR
-      CALL spl(I,NR,NI)
-      CALL printni(6,I,NR,NI)
-      I=NR
-      CALL spl(I,NR,NI)
-      CALL printni(7,I,NR,NI)
-
+      CALL test1
+      CALL test2
+      CALL test3
+      CALL test4
+      CALL test5
+      CALL test6
+      CALL test7
+      CALL test8
 
       END PROGRAM test_spl
 
-      SUBROUTINE printni(IT,I,Nr,Ni)
+!test_that("spl divides the first and last intervals.", {
+!})
+!
+!test_that("spl divides even,even intervals.", {
+!})
+!
+!test_that("spl divides even,odd intervals.", {
+
+!})
+!
+!test_that("spl divides odd,even intervals.", {
+
+!})
+!
+!test_that("spl divides odd,odd intervals.", {
+
+!})
+      SUBROUTINE test1
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/1/
+      DATA I/2/
+      DATA NR/3/,NI/1,5,10,20,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE test2
+!  expect_equal(spl(c(1,2,6,10),2),c(1,2,4,6,10))
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/2/
+      DATA I/2/
+      DATA NR/3/,NI/1,2,6,10,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE test3
+!  expect_equal(spl(c(1,5,10),1),c(1,3,5,10))
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/3/
+      DATA I/1/
+      DATA NR/2/,NI/1,5,10,0,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE test4
+!  expect_equal(spl(c(1,5,10),2),c(1,5,7,10))
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/4/
+      DATA I/2/
+      DATA NR/2/,NI/1,5,10,0,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE test5
+!  expect_equal(spl(c(1,2,6,10),2),c(1,2,4,6,10))
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/5/
+      DATA I/2/
+      DATA NR/3/,NI/1,2,6,10,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE test6
+!  expect_equal(spl(c(1,2,5,10),2),c(1,2,4,5,10))
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/6/
+      DATA I/2/
+      DATA NR/3/,NI/1,2,5,10,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE test7
+!  expect_equal(spl(c(1,3,6,10),2),c(1,3,5,6,10))
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/7/
+      DATA I/2/
+      DATA NR/3/,NI/1,3,6,10,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE test8
+!  expect_equal(spl(c(1,3,7,10),2),c(1,3,5,7,10))
+      INTEGER TEST,I,NR,NI(10)
+      DATA TEST/8/
+      DATA I/2/
+      DATA NR/3/,NI/1,3,7,10,0,0,0,0,0,0/
+
+      CALL printin(TEST,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+      END SUBROUTINE
+
+      SUBROUTINE testlong
+      INTEGER NR
+      INTEGER NI(16)
+      DATA NR /4/
+      DATA NI /1,4,10,15,20,0,0,0,0,0,0,0,0,0,0,0/
+      INTEGER I
+
+      I=1
+      CALL printin(1,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+
+      I=5
+      CALL printin(2,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+
+      I=2
+      CALL printin(3,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+
+      I=1
+      CALL printin(4,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+
+      I=NR
+      CALL printin(5,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+
+      I=NR
+      CALL printin(6,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+
+      I=NR
+      CALL printin(7,I,NR,NI)
+      CALL spl(I,NR,NI)
+      CALL printout(NR,NI)
+
+      END SUBROUTINE
+
+      SUBROUTINE printin(IT,I,Nr,Ni)
       INTEGER Nr, Ni(Nr+2)
       INTEGER I,IT,J
 !      PRINT*,"All segments:"
@@ -61,7 +197,13 @@
       PRINT*,"Test:",IT," I:",I
       PRINT*,(NI(J),J=1,NR+1)
       PRINT*,""
-      END
+      END SUBROUTINE
+
+      SUBROUTINE printout(NR,NI)
+      INTEGER NR, NI(NR+1)
+      PRINT*,(NI(J),J=1,NR+1)
+      PRINT*,"========================================================"
+      END SUBROUTINE
 
       SUBROUTINE spl(i,Nr,Ni)
       INTEGER NR,NI(nr+2)
