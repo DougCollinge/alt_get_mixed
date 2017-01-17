@@ -58,14 +58,18 @@ spl <- function(ni,i) {
 ### Testing ###
 ###############
 
-### Using the same data as merge.R
-#ni = 42 + 0:(20-1)
-#i = 5
-#nr = 10
-#
-#spl(ni, i, nr)
-#
-#spl(ni, i=10, nr=5)
+## Interval too small 
+ni =  c(10, 20) 
+i = 2
+
+spl(ni, i)  
+
+## i too small
+ni =  c(10, 20, 30) 
+i = 3
+
+spl(ni, i) 
+  
 
 ni = c(1,5,10,15,20)
 nr = 4
