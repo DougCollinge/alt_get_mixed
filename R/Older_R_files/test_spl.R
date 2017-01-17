@@ -46,10 +46,12 @@
 #}
 
 spl <- function(ni,i) {
+  stopifnot(i<length(ni))
   k1 = ni[i]
   k2 = ni[i+1]
-  jsplit = max(min(floor((k1+k2)/2),k2),k1)
-  c(ni[1:i],jsplit,ni[(i+1):length(ni)])
+  jsplit = floor((k1+k2)/2) # Is an index, must be an integer.
+  stopifnot(k1<jsplit & jsplit<k2) 
+  c( ni[1:i], jsplit, ni[(i+1):length(ni)] )
 }
 
 ###############
