@@ -1,5 +1,5 @@
-            program test_r2b
-          implicit none
+      program test_r2b
+      implicit none
 c     Inputs:
       integer N
 
