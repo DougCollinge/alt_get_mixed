@@ -37,8 +37,16 @@ c     Outputs:
 
       call GET_XX_norm(anormx,anormy, N,N1,X0,DX,X,Y,XX,YY)
 
+      PRINT*,"Input X,Y:"
+      DO I=1,N
+        PRINT*, I,X(I),Y(I)
+      END DO
+      PRINT*,""
+      PRINT*,"anormx, anormy:",anormx,anormy
+      PRINT*,""
+      PRINT*,"Output XX,YY:"
       DO I=1,N1
-        print *, anormx,anormy,XX(I),YY(I)
+        print *,I,XX(I),YY(I)
       END DO
 
       stop
