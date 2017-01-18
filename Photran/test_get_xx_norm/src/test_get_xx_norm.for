@@ -37,22 +37,27 @@ c     Outputs:
 
       call GET_XX_norm(anormx,anormy, N,N1,X0,DX,X,Y,XX,YY)
 
-      PRINT*,"Input X,Y:"
+      PRINT*,"Input:"
+      PRINT*,"X0,DX:",X0,DX
+      PRINT*,"X,Y:"
       DO I=1,N
         PRINT*, I,X(I),Y(I)
       END DO
       PRINT*,""
+      PRINT*,"Output:"
       PRINT*,"anormx, anormy:",anormx,anormy
-      PRINT*,""
       PRINT*,"Output XX,YY:"
       DO I=1,N1
         print *,I,XX(I),YY(I)
       END DO
+      PRINT*,""
 
       stop
       end program test_get_xx_norm
 
         SUBROUTINE GET_XX_norm(anormx,anormy,N,N1,X0,DX,X,Y,XX,YY)
+!        INTEGER N,N1
+!        REAL X0,DX
         REAL X(N),Y(N),XX(N1),YY(N1)
 c
 c     Linear interpolation with normalization (non-dimensionalization of the data series
@@ -74,6 +79,7 @@ c         YY-  [REAL(N1)] output y array (contains values from 0 to 1 for monoto
       INTEGER I,J
       X1=X0
       J=1
+!     PRINT*,"J:",J  !DEBUG
 
       DO I=1,N1
 
@@ -82,11 +88,17 @@ c         YY-  [REAL(N1)] output y array (contains values from 0 to 1 for monoto
         DO WHILE (X1.Ge.X(J).AND.J.LT.N)
             J=J+1
         END DO
+!     PRINT*,"J:",J !DEBUG
         IF (J.EQ.1) THEN
 
             YY(I)=Y(1)
           ELSE
-          YY(I)=Y(J-1)+(X1-X(J-1))/(X(J)-X(J-1))*(Y(J)-Y(J-1))
+!      PRINT*,"X1,X(J-1),-:",X1,X(J-1),X1-X(J-1)  !DEBUG
+!      PRINT*,"X(J),X(J-1),-:",X(J),X(J-1),X(J)-X(J-1) !DEBUG
+!      PRINT*,"J,Y(J),Y(J-1):",J,Y(J),Y(J-1),Y(J)-Y(J-1) !DEBUG
+          YY(I)=Y(J-1)+(X1-X(J-1))/(X(J)-X(J-1))*(Y(J)-Y(J-1)) !DEBUG
+!      PRINT*,"YY(I):",YY(I) !DEBUG
+!      PRINT* !DEBUG
         END IF
           X1=X1+DX
       END DO
