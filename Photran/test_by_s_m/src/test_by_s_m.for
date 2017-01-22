@@ -34,69 +34,131 @@ c-----------------------------------------------------
 c     calculation for density
 c-----------------------------------------------------
       res1=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,SIGM,SMZ,SMS)
-      open(UNIT=2,FILE='results.txt')
-      write(2,*)
-      write(2,200)name
-      write(2,2011)thres
-      write(2,2020)res1,nimax
-      write(2,2041)
-      write(2,2031)
-      write(2,2041)
-      do i=1,nimax+1
-       write(2,2030)i,smz(i),sms(i)
+
+
+      open(UNIT=2,FILE='results.R')
+      write(2,*)"DensityResults = list("
+      write(2,*)"  variable=""Density"","
+      write(2,*)"  thres=",thres,","
+      write(2,*)"  result=",res1,","
+      write(2,*)"  nimax=",nimax,","
+      write(2,*)"  smz=c("
+      do i = 1,nimax
+        write(2,*)"    ",smz(i),","
       end do
-      write (2,2040)
+      write(2,*)"    ",smz(nimax+1)
+      write(2,*)"  ),"
+      write(2,*)"  sms=c("
+      do i = 1,nimax
+        write(2,*)"    ",sms(i),","
+      end do
+      write(2,*)"    ",sms(nimax+1)
+      write(2,*)"  )"
+      write(2,*)")"
+      write(2,*)
+
+!      write(2,*)
+!      write(2,200)name
+!      write(2,2011)thres
+!      write(2,2020)res1,nimax
+!      write(2,2041)
+!      write(2,2031)
+!      write(2,2041)
+!      do i=1,nimax+1
+!       write(2,2030)i,smz(i),sms(i)
+!      end do
+!      write (2,2040)
 
 c-----------------------------------------------------
 c     calculation for temperature
 c-----------------------------------------------------
       res2=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,T,SMZ,SMS)
-      write(2,*)
-      write(2,200)name
-      write(2,2012)thres
-      write(2,2020)res2,nimax
-      write(2,2041)
-      write(2,2032)
-      write(2,2041)
-      do i=1,nimax+1
-        write(2,2030)i,smz(i),sms(i)
+      write(2,*)"TemperatureResults = list("
+      write(2,*)"  variable=""Temperature"","
+      write(2,*)"  thres=",thres,","
+      write(2,*)"  result=",res2,","
+      write(2,*)"  nimax=",nimax,","
+      write(2,*)"  smz=c("
+      do i = 1,nimax
+        write(2,*)"    ",smz(i),","
       end do
-      write (2,2040)
+      write(2,*)"    ",smz(nimax+1)
+      write(2,*)"  ),"
+      write(2,*)"  sms=c("
+      do i = 1,nimax
+        write(2,*)"    ",sms(i),","
+      end do
+      write(2,*)"    ",sms(nimax+1)
+      write(2,*)"  )"
+      write(2,*)")"
+      write(2,*)
+
+!      write(2,*)
+!      write(2,200)name
+!      write(2,2012)thres
+!      write(2,2020)res2,nimax
+!      write(2,2041)
+!      write(2,2032)
+!      write(2,2041)
+!      do i=1,nimax+1
+!        write(2,2030)i,smz(i),sms(i)
+!      end do
+!      write (2,2040)
 
 c-----------------------------------------------------
 c     calculation for salinity
 c-----------------------------------------------------
       res3=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,SAL,SMZ,SMS)
-      write(2,*)
-      write(2,200)name
-      write(2,2013)thres
-      write(2,2020)res3,nimax
-      write(2,2041)
-      write(2,2033)
-      write(2,2041)
-      do i=1,nimax+1
-            write(2,2030)i,smz(i),sms(i)
+      write(2,*)"SalinityResults = list("
+      write(2,*)"  variable=""Salinity"","
+      write(2,*)"  thres=",thres,","
+      write(2,*)"  result=",res3,","
+      write(2,*)"  nimax=",nimax,","
+      write(2,*)"  smz=c("
+      do i = 1,nimax
+        write(2,*)"    ",smz(i),","
       end do
-      write (2,2040)
+      write(2,*)"    ",smz(nimax+1)
+      write(2,*)"  ),"
+      write(2,*)"  sms=c("
+      do i = 1,nimax
+        write(2,*)"    ",sms(i),","
+      end do
+      write(2,*)"    ",sms(nimax+1)
+      write(2,*)"  )"
+      write(2,*)")"
+      write(2,*)
+
+!      write(2,*)
+!      write(2,200)name
+!      write(2,2013)thres
+!      write(2,2020)res3,nimax
+!      write(2,2041)
+!      write(2,2033)
+!      write(2,2041)
+!      do i=1,nimax+1
+!            write(2,2030)i,smz(i),sms(i)
+!      end do
+!      write (2,2040)
 
 
       stop
-200   format('FILE NAME=  ',a20)
-2011  format('RESULT FOR DENSITY PROFILE,       ERR NORM=',f12.5)
-2012  format('RESULT FOR TEMPERATURE PROFILE,   ERR NORM=',f12.5)
-2013  format('RESULT FOR SALINITY PROFILE,      ERR NORM=',f12.5)
-2020  format('MLD=',F12.2,10x,'MAX SEGMENTS=',i3)
-2031  format('NUMBER     DEPTH     DENSITY')
-2032  format('NUMBER     DEPTH   TEMPERATURE')
-2033  format('NUMBER     DEPTH    SALINITY')
+!200   format('FILE NAME=  ',a20)
+!2011  format('RESULT FOR DENSITY PROFILE,       ERR NORM=',f12.5)
+!2012  format('RESULT FOR TEMPERATURE PROFILE,   ERR NORM=',f12.5)
+!2013  format('RESULT FOR SALINITY PROFILE,      ERR NORM=',f12.5)
+!2020  format('MLD=',F12.2,10x,'MAX SEGMENTS=',i3)
+!2031  format('NUMBER     DEPTH     DENSITY')
+!2032  format('NUMBER     DEPTH   TEMPERATURE')
+!2033  format('NUMBER     DEPTH    SALINITY')
 !3011  format('RESULT FOR DENSITY PROFILE,       ',i3,' SEGMENTS')
 !3012  format('RESULT FOR TEMPERATURE PROFILE,   ',i3,' SEGMENTS')
 !3013  format('RESULT FOR SALINITY PROFILE,      ',i3,' SEGMENTS')
 !3020  format('MLD=',F12.2,10x,'ERROR NORM=',f12.5)
 
-2030  format(i4,2f12.4)
-2040  format('======================================================')
-2041  format('------------------------------------------------------')
+!2030  format(i4,2f12.4)
+!2040  format('======================================================')
+!2041  format('------------------------------------------------------')
 
       end program test_by_s_m
 
