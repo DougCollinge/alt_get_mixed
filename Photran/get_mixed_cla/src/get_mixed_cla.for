@@ -4,11 +4,11 @@ C
       program get_mixed
       real t(2000),SAL(2000),sigm(2000),z(2000)
       real sms(100),smz(100)
-      character (len=130):: froot,iname,oname
-      CHARACTER (LEN=20):: density,temperature,salinity
-      DATA density    /"DENSITY             "/
-      DATA temperature/"TEMPERATURE         "/
-      DATA salinity   /"SALINITY            "/
+      character (len=130):: froot,iname,oname,rname
+!      CHARACTER (LEN=20):: density,temperature,salinity
+!      DATA density    /"DENSITY             "/
+!      DATA temperature/"TEMPERATURE         "/
+!      DATA salinity   /"SALINITY            "/
 
 !      CHARACTER (len=130):: FROOT
 
@@ -23,6 +23,7 @@ c Read the filenames from the command line
 c Compute the names of the input and output data files.
       iname=trim(FROOT)//'.t11'
       oname=trim(FROOT)//'-F.txt'
+      rname=trim(FROOT)//'.R'
       PRINT*,"Input path: ",trim(iname),"  Report path: ",trim(oname)
 
 c reading text file
@@ -34,8 +35,9 @@ c reading text file
 1     n=i-1
 
       IF(N.LT.1) THEN
-        print *,'No data found!'
-        print *,iname
+        print*,"No data found at:",iname
+        print*,"Data should be by rows:"
+        print*,"z,temperature,salinity,r,r,sigma"
         STOP
       END IF
 
@@ -51,136 +53,70 @@ c     seasonal or interannual scale analyses, we advise you to use a larger
 c     value of the error norm (up to 0.015)
 
       open(UNIT=2,FILE=oname)
-c-----------------------------------------------------
-c     calculation for density
-c-----------------------------------------------------
+      open(UNIT=3,FILE=rname)
+
       res1=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,SIGM,SMZ,SMS)
-      CALL reporter(2,iname,density,thres,res1,nimax,
-     &smz,sms)
-!      write(2,*)
-!      write(2,200)iname
-!      write(2,2011)thres
-!      write(2,2020)res1,nimax
-!      write(2,2041)
-!      write(2,2031)
-!      write(2,2041)
-!      do i=1,nimax+1
-!       write(2,2030)i,smz(i),sms(i)
-!      end do
-!      write (2,2040)
+      CALL reporter(2,iname,"DENSITY",
+     &              thres,res1,nimax,smz,sms)
+      CALL rlist(3,iname,"Density","DensityBYSM",
+     &           thres,res1,nimax,smz,sms)
 
-c-----------------------------------------------------
-c     calculation for temperature
-c-----------------------------------------------------
       res2=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,T,SMZ,SMS)
-      CALL reporter(2,iname,temperature,
-     &thres,res2,nimax,smz,sms)
-!      write(2,*)
-!      write(2,200)iname
-!      write(2,2012)thres
-!      write(2,2020)res2,nimax
-!      write(2,2041)
-!      write(2,2032)
-!      write(2,2041)
-!      do i=1,nimax+1
-!        write(2,2030)i,smz(i),sms(i)
-!      end do
-!      write (2,2040)
+      CALL reporter(2,iname,"TEMPERATURE",
+     &              thres,res2,nimax,smz,sms)
+      CALL rlist(3,iname,"Temperature","TemperatureBYSM",
+     &           thres,res1,nimax,smz,sms)
 
-c-----------------------------------------------------
-c     calculation for salinity
-c-----------------------------------------------------
       res3=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,SAL,SMZ,SMS)
-      CALL reporter(2,iname,salinity,
-     &thres,res3,nimax,smz,sms)
-!      write(2,*)
-!      write(2,200)iname
-!      write(2,2013)thres
-!      write(2,2020)res3,nimax
-!      write(2,2041)
-!      write(2,2033)
-!      write(2,2041)
-!      do i=1,nimax+1
-!            write(2,2030)i,smz(i),sms(i)
-!      end do
-!      write (2,2040)
-
+      CALL reporter(2,iname,"SALINITY",
+     &              thres,res3,nimax,smz,sms)
+      CALL rlist(3,iname,"Salinity","SalinityBYSM",
+     &           thres,res1,nimax,smz,sms)
 
 C      THE THREE EXAMPLES BELOW SHOW ANOTHER VARIANT OF THE ALGORITHM
 C      FOR THE CASE OF A PREDIFINED NUMBER OF SEGMENTS (IN THIS CASE IN
 c      EQUAL TO 5). THE ERROR NORM IS AN OUTPUT PARAMETER.
 
-c--------------------------------------------------------
-c     calculation for density for a fixed number of segments (=5)
-c--------------------------------------------------------
       nimax=5
       res1=BY_s_m3(n,nimax,thres,z0,z,zmax,sigm,smz,sms)
-      CALL reporter(2,iname,density,thres,res1,nimax,smz,sms)
-!      write(2,*)
-!      write(2,200)iname
-!      write(2,3011)nimax
-!      write(2,3020)res1,thres
-!      write(2,2041)
-!      write(2,2031)
-!      write(2,2041)
-!      do i=1,nimax+1
-!            write(2,2030)i,smz(i),sms(i)
-!      end do
-!      write (2,2040)
-c--------------------------------------------------------
-c     calculation for temperature for a fixed number of segments (=5)
-c--------------------------------------------------------
+      CALL reporter(2,iname,"DENSITY",thres,res1,nimax,smz,sms)
+      CALL rlist(3,iname,"Density","DensityBYSM3",
+     &           thres,res1,nimax,smz,sms)
+
       nimax=5
       res1=BY_s_m3(n,nimax,thres,z0,z,zmax,t,smz,sms)
-      CALL reporter(2,iname,temperature,thres,res1,nimax,smz,sms)
+      CALL reporter(2,iname,"TEMPERATURE",thres,res1,nimax,smz,sms)
+      CALL rlist(3,iname,"Temperature","TemperatureBYSM3",
+     &           thres,res1,nimax,smz,sms)
 
-!      write(2,*)
-!      write(2,200)iname
-!      write(2,3012)nimax
-!      write(2,3020)res1,thres
-!      write(2,2041)
-!      write(2,2032)
-!      write(2,2041)
-!        do i=1,nimax+1
-!          write(2,2030)i,smz(i),sms(i)
-!        end do
-!      write (2,2040)
-c--------------------------------------------------------
-c     calculation for salinity for a fixed number of segments (=5)
-c--------------------------------------------------------
+
       nimax=5
       res1=BY_s_m3(n,nimax,thres,z0,z,zmax,sal,smz,sms)
-      CALL reporter(2,iname,salinity,thres,res1,nimax,smz,sms)
+      CALL reporter(2,iname,"SALINITY",thres,res1,nimax,smz,sms)
+      CALL rlist(3,iname,"Salinity","SalinityBYSM3",
+     &           thres,res1,nimax,smz,sms)
 
-!        write(2,*)
-!        write(2,200)iname
-!        write(2,3013)nimax
-!      write(2,3020)res1,thres
-!      write(2,2041)
-!      write(2,2033)
-!      write(2,2041)
-!        do i=1,nimax+1
-!          write(2,2030)i,smz(i),sms(i)
-!        end do
-!      write (2,2040)
-
-      close(2)
+      CLOSE(2)
+      CLOSE(3)
       STOP
       END PROGRAM
 
       SUBROUTINE reporter(unit,filepath,param,thres,res1,nimax,smz,sms)
       INTEGER unit
-      character (len=130):: filepath
-      CHARACTER (len=20):: param,pdisplay
+      character (len=*):: filepath,param
+      CHARACTER (len=20):: ladjuster20
       REAL thres,res1,smz(nimax+1),sms(nimax+1)
-      print*,"param:",param
+
       write(unit,*)
-      write(unit,200)filepath
-      pdisplay = trim(param)//" PROFILE,"
-      write(unit,2011)pdisplay,thres
-      write(unit,2020)res1,nimax
+      write(unit,200 ) filepath
+      ladjuster20 = param//" PROFILE,"
+      ladjuster20 = ADJUSTL(ladjuster20)
+      write(unit,2011) ladjuster20,thres
+      write(unit,2020) res1,nimax
       write(unit,2041)
-      write(unit,2031) param
+      ladjuster20 = param
+      ladjuster20 = ADJUSTL(ladjuster20)
+      write(unit,2031) ladjuster20
       write(unit,2041)
       do i=1,nimax+1
        write(unit,2030)i,smz(i),sms(i)
@@ -207,6 +143,35 @@ c--------------------------------------------------------
 2041  format('------------------------------------------------------')
 
       END SUBROUTINE
+
+      SUBROUTINE rlist(unit,filepath,param,varname,
+     &                 thres,res1,nimax,smz,sms)
+      INTEGER unit
+      CHARACTER (len=*):: filepath,param,varname
+      REAL thres,res1,smz(nimax+1),sms(nimax+1)
+
+      write(unit,*) varname//" = list("
+      write(unit,*)"  datapath="""//trim(filepath)//""","
+      write(unit,*)"  variable="""//trim(param)//""","
+      write(unit,*)"  thres=",thres,","
+      write(unit,*)"  result=",res1,","
+      write(unit,*)"  nimax=",nimax,","
+      write(unit,*)"  smz=c("
+      do i = 1,nimax
+        write(unit,*)"    ",smz(i),","
+      end do
+      write(unit,*)"    ",smz(nimax+1)
+      write(unit,*)"  ),"
+      write(unit,*)"  sms=c("
+      do i = 1,nimax
+        write(unit,*)"    ",sms(i),","
+      end do
+      write(unit,*)"    ",sms(nimax+1)
+      write(unit,*)"  )"
+      write(unit,*)")"
+      write(unit,*)
+      END SUBROUTINE
+
 
         SUBROUTINE GET_XX(N,N1,X0,DX,X,Y,XX,YY)
         REAL X(N),Y(N),XX(N1),YY(N1)
