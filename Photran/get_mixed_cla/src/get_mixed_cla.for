@@ -177,7 +177,7 @@ c--------------------------------------------------------
       write(unit,*)
       write(unit,200)filepath
       pdisplay = trim(param)//" PROFILE,"
-      write(unit,2011)pdisplay,Pthres
+      write(unit,2011)pdisplay,thres
       write(unit,2020)res1,nimax
       write(unit,2041)
       write(unit,2031) param
@@ -589,13 +589,14 @@ C        EPS -[REAL] maximum error norm
 C          NI  -[INTEGER] final array with segment start points
         INTEGER NR, NI(n)
         REAL X(n),Y(n)
-        INTEGER i,j,j1,k,k1,k2,k3
+      INTEGER i,j,j1,k1,k2 ! Remove warnings from unused variables
+!        INTEGER i,j,j1,k,k1,k2,k3
       integer M
       REAL eps1,eps2,epsr,epsm,a,b
       LOGICAL change
-      REAL s
+!      REAL s  ! Remove warning from unused variable
 C       label lab0,lab1,lab2,lab3;
-
+      epsm = 0.0  ! Silence a compiler warning about unitialized use.
       m=NINT(FLOAT(N)/FLOAT(Nr))
         ni(1)=1
       DO i=2,Nr
@@ -672,7 +673,8 @@ C          NI  -[INTEGER] final array with segment start points
         real z(n),sigma(n),smz(n),sms(n)
         real xx(1000),yy(1000)
         integer ni(400)
-      by_s_m=-99.0
+      by_s_m3=-99.0     ! Compiler is warning could be uninitialized.
+!      by_s_m=-99.0
       nn=800
 c     finding initial s-level
         i=1
