@@ -4,24 +4,26 @@ C
       program get_mixed
       real t(2000),SAL(2000),sigm(2000),z(2000)
       real sms(100),smz(100)
-      character*130 iname,oname
+      character (len=130):: froot,iname,oname
+      CHARACTER (LEN=20):: density,temperature,salinity
+      DATA density    /"DENSITY             "/
+      DATA temperature/"TEMPERATURE         "/
+      DATA salinity   /"SALINITY            "/
 
 !      CHARACTER (len=130):: FROOT
 
 c Read the filenames from the command line
-      CALL get_command_argument(1, iname)
-      CALL get_command_argument(2, oname)
-      IF(trim(iname).EQ."" .OR. trim(oname).EQ."") THEN
-        print*,"get_mixed_clp <ifile> <ofile>"
-        print*,"  <ifile>: input data filename"
-        print*,"  <ofile>: output report filename"
+      CALL get_command_argument(1, froot)
+      IF(trim(froot).EQ."") THEN
+        print*,"get_mixed_cla <ifile>"
+        print*,"  <ifile>: input data filename root, no extension."
         STOP
       END IF
-!      PRINT*,"Input: ",ifile,"  Output: ",ofile
 
-!c Compute the names of the input and output data files.
-!      name=trim(FROOT)//'.t11'
-!      oname=trim(FROOT)//'-F.txt'
+c Compute the names of the input and output data files.
+      iname=trim(FROOT)//'.t11'
+      oname=trim(FROOT)//'-F.txt'
+      PRINT*,"Input path: ",trim(iname),"  Report path: ",trim(oname)
 
 c reading text file
       open(UNIT=1,FILE=iname)
@@ -48,54 +50,60 @@ c     mixing depth for a diurnal-type mixed layer. However, for
 c     seasonal or interannual scale analyses, we advise you to use a larger
 c     value of the error norm (up to 0.015)
 
+      open(UNIT=2,FILE=oname)
 c-----------------------------------------------------
 c     calculation for density
 c-----------------------------------------------------
       res1=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,SIGM,SMZ,SMS)
-      open(UNIT=2,FILE=oname)
-      write(2,*)
-      write(2,200)iname
-      write(2,2011)thres
-      write(2,2020)res1,nimax
-      write(2,2041)
-      write(2,2031)
-      write(2,2041)
-      do i=1,nimax+1
-       write(2,2030)i,smz(i),sms(i)
-      end do
-      write (2,2040)
+      CALL reporter(2,iname,density,thres,res1,nimax,
+     &smz,sms)
+!      write(2,*)
+!      write(2,200)iname
+!      write(2,2011)thres
+!      write(2,2020)res1,nimax
+!      write(2,2041)
+!      write(2,2031)
+!      write(2,2041)
+!      do i=1,nimax+1
+!       write(2,2030)i,smz(i),sms(i)
+!      end do
+!      write (2,2040)
 
 c-----------------------------------------------------
 c     calculation for temperature
 c-----------------------------------------------------
       res2=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,T,SMZ,SMS)
-      write(2,*)
-      write(2,200)iname
-      write(2,2012)thres
-      write(2,2020)res2,nimax
-      write(2,2041)
-      write(2,2032)
-      write(2,2041)
-      do i=1,nimax+1
-        write(2,2030)i,smz(i),sms(i)
-      end do
-      write (2,2040)
+      CALL reporter(2,iname,temperature,
+     &thres,res2,nimax,smz,sms)
+!      write(2,*)
+!      write(2,200)iname
+!      write(2,2012)thres
+!      write(2,2020)res2,nimax
+!      write(2,2041)
+!      write(2,2032)
+!      write(2,2041)
+!      do i=1,nimax+1
+!        write(2,2030)i,smz(i),sms(i)
+!      end do
+!      write (2,2040)
 
 c-----------------------------------------------------
 c     calculation for salinity
 c-----------------------------------------------------
       res3=BY_S_M(N,NIMAX,THRES,Z0,ZMAX,Z,SAL,SMZ,SMS)
-      write(2,*)
-      write(2,200)iname
-      write(2,2013)thres
-      write(2,2020)res3,nimax
-      write(2,2041)
-      write(2,2033)
-      write(2,2041)
-      do i=1,nimax+1
-            write(2,2030)i,smz(i),sms(i)
-      end do
-      write (2,2040)
+      CALL reporter(2,iname,salinity,
+     &thres,res3,nimax,smz,sms)
+!      write(2,*)
+!      write(2,200)iname
+!      write(2,2013)thres
+!      write(2,2020)res3,nimax
+!      write(2,2041)
+!      write(2,2033)
+!      write(2,2041)
+!      do i=1,nimax+1
+!            write(2,2030)i,smz(i),sms(i)
+!      end do
+!      write (2,2040)
 
 
 C      THE THREE EXAMPLES BELOW SHOW ANOTHER VARIANT OF THE ALGORITHM
@@ -107,75 +115,98 @@ c     calculation for density for a fixed number of segments (=5)
 c--------------------------------------------------------
       nimax=5
       res1=BY_s_m3(n,nimax,thres,z0,z,zmax,sigm,smz,sms)
-      write(2,*)
-      write(2,200)iname
-      write(2,3011)nimax
-      write(2,3020)res1,thres
-      write(2,2041)
-      write(2,2031)
-      write(2,2041)
-      do i=1,nimax+1
-            write(2,2030)i,smz(i),sms(i)
-      end do
-      write (2,2040)
+      CALL reporter(2,iname,density,thres,res1,nimax,smz,sms)
+!      write(2,*)
+!      write(2,200)iname
+!      write(2,3011)nimax
+!      write(2,3020)res1,thres
+!      write(2,2041)
+!      write(2,2031)
+!      write(2,2041)
+!      do i=1,nimax+1
+!            write(2,2030)i,smz(i),sms(i)
+!      end do
+!      write (2,2040)
 c--------------------------------------------------------
 c     calculation for temperature for a fixed number of segments (=5)
 c--------------------------------------------------------
       nimax=5
       res1=BY_s_m3(n,nimax,thres,z0,z,zmax,t,smz,sms)
-      write(2,*)
-      write(2,200)iname
-      write(2,3012)nimax
-      write(2,3020)res1,thres
-      write(2,2041)
-      write(2,2032)
-      write(2,2041)
-        do i=1,nimax+1
-          write(2,2030)i,smz(i),sms(i)
-        end do
-      write (2,2040)
+      CALL reporter(2,iname,temperature,thres,res1,nimax,smz,sms)
+
+!      write(2,*)
+!      write(2,200)iname
+!      write(2,3012)nimax
+!      write(2,3020)res1,thres
+!      write(2,2041)
+!      write(2,2032)
+!      write(2,2041)
+!        do i=1,nimax+1
+!          write(2,2030)i,smz(i),sms(i)
+!        end do
+!      write (2,2040)
 c--------------------------------------------------------
 c     calculation for salinity for a fixed number of segments (=5)
 c--------------------------------------------------------
-        nimax=5
-        res1=BY_s_m3(n,nimax,thres,z0,z,zmax,sal,smz,sms)
-        write(2,*)
-        write(2,200)iname
-        write(2,3013)nimax
-      write(2,3020)res1,thres
-      write(2,2041)
-      write(2,2033)
-      write(2,2041)
-        do i=1,nimax+1
-          write(2,2030)i,smz(i),sms(i)
-        end do
-      write (2,2040)
+      nimax=5
+      res1=BY_s_m3(n,nimax,thres,z0,z,zmax,sal,smz,sms)
+      CALL reporter(2,iname,salinity,thres,res1,nimax,smz,sms)
+
+!        write(2,*)
+!        write(2,200)iname
+!        write(2,3013)nimax
+!      write(2,3020)res1,thres
+!      write(2,2041)
+!      write(2,2033)
+!      write(2,2041)
+!        do i=1,nimax+1
+!          write(2,2030)i,smz(i),sms(i)
+!        end do
+!      write (2,2040)
+
       close(2)
+      STOP
+      END PROGRAM
 
+      SUBROUTINE reporter(unit,filepath,param,thres,res1,nimax,smz,sms)
+      INTEGER unit
+      character (len=130):: filepath
+      CHARACTER (len=20):: param,pdisplay
+      REAL thres,res1,smz(nimax+1),sms(nimax+1)
+      print*,"param:",param
+      write(unit,*)
+      write(unit,200)filepath
+      pdisplay = trim(param)//" PROFILE,"
+      write(unit,2011)pdisplay,Pthres
+      write(unit,2020)res1,nimax
+      write(unit,2041)
+      write(unit,2031) param
+      write(unit,2041)
+      do i=1,nimax+1
+       write(unit,2030)i,smz(i),sms(i)
+      end do
+      write (unit,2040)
 
-
-
-
+      RETURN
 
 200   format('FILE NAME=  ',a20)
-2011  format('RESULT FOR DENSITY PROFILE,       ERR NORM=',f12.5)
-2012  format('RESULT FOR TEMPERATURE PROFILE,   ERR NORM=',f12.5)
-2013  format('RESULT FOR SALINITY PROFILE,      ERR NORM=',f12.5)
+2011  format('RESULT FOR ',a20,'   ERR NORM=',f12.5)
+!2012  format('RESULT FOR TEMPERATURE PROFILE,   ERR NORM=',f12.5)
+!2013  format('RESULT FOR SALINITY PROFILE,      ERR NORM=',f12.5)
 2020  format('MLD=',F12.2,10x,'MAX SEGMENTS=',i3)
-2031  format('NUMBER     DEPTH    DENSITY')
-2032  format('NUMBER     DEPTH    TEMPERATURE')
-2033  format('NUMBER     DEPTH    SALINITY')
-3011  format('RESULT FOR DENSITY PROFILE,       ',i3,' SEGMENTS')
-3012  format('RESULT FOR TEMPERATURE PROFILE,   ',i3,' SEGMENTS')
-3013  format('RESULT FOR SALINITY PROFILE,      ',i3,' SEGMENTS')
-3020  format('MLD=',F12.2,10x,'ERROR NORM=',f12.5)
+2031  format('NUMBER     DEPTH    ',a20)
+!2032  format('NUMBER     DEPTH    TEMPERATURE')
+!2033  format('NUMBER     DEPTH    SALINITY')
+!3011  format('RESULT FOR ',a23,i3,' SEGMENTS')
+!3012  format('RESULT FOR TEMPERATURE PROFILE,   ',i3,' SEGMENTS')
+!3013  format('RESULT FOR SALINITY PROFILE,      ',i3,' SEGMENTS')
+!3020  format('MLD=',F12.2,10x,'ERROR NORM=',f12.5)
 
 2030  format(i4,2f12.4)
 2040  format('======================================================')
 2041  format('------------------------------------------------------')
 
-        STOP
-        END
+      END SUBROUTINE
 
         SUBROUTINE GET_XX(N,N1,X0,DX,X,Y,XX,YY)
         REAL X(N),Y(N),XX(N1),YY(N1)
@@ -394,13 +425,13 @@ C       label lab0,lab1,lab2,lab3;
 c      sss=orma2b(2,20,x,y,a,b)
 
         m=0
-100   change=.false.
+      change=.false.
 
 c       {step 1: if exceeds norma}
 
 C     lab1:
       i=1
-101   CONTINUE
+!101   CONTINUE
       DO while (i.le.Nr)
         k1=Ni(i)
         k2=Ni(i+1)
